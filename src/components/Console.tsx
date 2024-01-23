@@ -1,54 +1,25 @@
-import { diContainer } from "../services/Container";
-import { IEventManager } from "../services/EventManager";
-import { IStompClient } from "../services/StompClient";
-import config from "../config/config.json";
-import { useEffect, useState } from "react";
-import { EventData } from "../services/EventMessages";
+import { useState } from "react";
+import { EventData, EventId } from "../services/EventMessages";
+import useEventManager from "../hooks/useEventManager";
+import useWebSocket from "../hooks/useWebSocket";
 
 const Console = () => {
-  const stompClient = diContainer.get<IStompClient>("StompClient");
-  const eventManager = diContainer.get<IEventManager>("EventManager");
   const [text, setText] = useState<string>("");
 
-  useEffect(() => {
-    const subscription = eventManager
-      ?.eventData()
-      .subscribe((event: EventData) => {
-        console.log("Event received: ", event);
-        setText("");
-      });
+  useEventManager({ callback: onEvents });
+  useWebSocket({ callback: onSocketEvents });
 
-    return () => {
-      subscription?.unsubscribe();
-    };
-  }, []);
+  function onEvents(event: EventData):void {
+    if (event.id === EventId.MSG_CLEAR_CONSOLE) setText("");
+  }
 
-  useEffect(() => {
-    if (!config.app.healthcheck?.connectWs) return;
-
-    stompClient.connect(
-      config.app.healthcheck.healthcheckWsEndpoint,
-      (frame: { body: any }) => {
-        frame.body;
-        stompClient?.subscribe(
-          config.app.healthcheck.healthcheckWsTopic,
-          (message: { body: any }) => {
-            console.log(`Received message: ${message.body}`);
-            const data = JSON.parse(message.body);
-            const prettyJson = JSON.stringify(data, null, 2);
-            setText((prevText) =>
-              prevText ? prevText + "\n\n" + prettyJson : prettyJson
-            );
-          }
-        );
-      }
+  function onSocketEvents(event: any) {
+    const data = JSON.parse(event);
+    const prettyJson = JSON.stringify(data, null, 2);
+    setText((prevText) =>
+      prevText ? prevText + "\n\n" + prettyJson : prettyJson
     );
-
-    return () => {
-      console.log("Disconnecting WebSocket");
-      stompClient.disconnect();
-    };
-  }, []);
+  }
 
   return (
     <>

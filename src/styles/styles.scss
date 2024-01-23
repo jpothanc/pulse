@@ -4,16 +4,47 @@
   background-color: black;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 15px;
+  padding: 10px 15px;
   box-sizing: border-box;
-  color: aqua;
+  color: rgb(27, 68, 180);
   white-space: pre-line;
+  overflow: auto;
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
 }
 
 .navbar {
+  padding-left: 20px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
   padding: 15px 0;
   background-color: brown;
+  column-gap: 5px;
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  .navbar__logo {
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 30px;
+    background-color: rgb(42, 202, 122);
+  }
+  .navbar__menu {
+    display: flex;
+    align-items: center;
+    justify-items: flex-end;
+    margin-left: auto;
+    padding-right:20px ;
+    column-gap: 10px;
+
+    .navbar__menu-item {
+      padding: 5px 5px;
+      background-color: rgb(192, 198, 196);
+      cursor: pointer;
+      &:hover {
+       filter:brightness(1.2)
+      }
+    }
+  }
 }

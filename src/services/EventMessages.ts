@@ -10,14 +10,14 @@ export type Payload = {
 export type EventData = {
   source: string;
   id: EventId;
-  data: Payload;
+  payload: Payload;
 };
 
 export function getClearMessage(source: string): EventData {
   return {
     source,
     id: EventId.MSG_CLEAR_CONSOLE,
-    data: {
+    payload: {
       data: null,
     },
   };

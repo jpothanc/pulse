@@ -2,7 +2,6 @@
   "app": {
     "healthcheck": {
       "connectWs": true,
-      "queryIntervalRest": 0,
       "healthcheckWsEndpoint": "ws://LAPTOP-UMF83CB2:8007/ws-endpoint",
       "healthcheckWsEndpoint1": "wss://healthcheck-ib.azurewebsites.net/ws-endpoint1",
       "healthcheckWsTopic": "/topic/queryAsync",

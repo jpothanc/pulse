@@ -2,14 +2,11 @@ import { Container } from "inversify";
 import { StompClient, IStompClient } from "./StompClient";
 import { IEventManager, EventManager } from "./EventManager";
 
-export const diContainer = new Container();
+export const container = new Container();
 
-diContainer
-  .bind<IStompClient>("StompClient")
-  .to(StompClient)
-  .inSingletonScope();
+container.bind<IStompClient>("StompClient").to(StompClient).inSingletonScope();
 
-diContainer
+container
   .bind<IEventManager>("EventManager")
   .to(EventManager)
   .inSingletonScope();

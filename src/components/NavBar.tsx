@@ -1,21 +1,22 @@
-import { diContainer } from "../services/Container";
+import { container } from "../services/Container";
 import { IEventManager } from "../services/EventManager";
 import { getClearMessage } from "../services/EventMessages";
 
 const NavBar = () => {
-  const eventManager = diContainer.get<IEventManager>("EventManager");
+  const eventManager = container.get<IEventManager>("EventManager");
   const handleButtonClick = () => {
-    console.log("Home button clicked");
-
     const eventData = getClearMessage("NavBar");
     eventManager.publish(eventData);
   };
   return (
     <>
       <div className="navbar">
-        <button className="btn btn-primary" onClick={handleButtonClick}>
-          Clear
-        </button>
+        <div className="navbar__logo">Pulse</div>
+        <div className="navbar__menu">
+          <div className="navbar__menu-item" onClick={handleButtonClick}>
+            clear
+          </div>
+        </div>
       </div>
     </>
   );
