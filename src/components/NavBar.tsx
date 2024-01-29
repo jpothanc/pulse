@@ -1,11 +1,10 @@
-import { container } from "../services/Container";
-import { IEventManager } from "../services/EventManager";
-import { getClearMessage } from "../services/EventMessages";
+import { CreateClearMessage } from "../services/EventMessages";
+import { getInstance } from "../utils/factory";
 
 const NavBar = () => {
-  const eventManager = container.get<IEventManager>("EventManager");
+  const eventManager = getInstance("EventManager");
   const handleButtonClick = () => {
-    const eventData = getClearMessage("NavBar");
+    const eventData = CreateClearMessage(NavBar.name);
     eventManager.publish(eventData);
   };
   return (

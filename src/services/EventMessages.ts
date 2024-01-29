@@ -1,6 +1,8 @@
 export enum EventId {
   UNKNOWN = "UNKNOWN",
   MSG_CLEAR_CONSOLE = "MSG_CLEAR_CONSOLE",
+  MSG_WS_NAME_CHANGED = "MSG_WS_NAME_CHANGED",
+  MSG_WS_DATA_RECEIVED = "MSG_WS_DATA_RECEIVED",
 }
 
 export type Payload = {
@@ -13,7 +15,7 @@ export type EventData = {
   payload: Payload;
 };
 
-export function getClearMessage(source: string): EventData {
+export function CreateClearMessage(source: string): EventData {
   return {
     source,
     id: EventId.MSG_CLEAR_CONSOLE,
