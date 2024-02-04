@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { getInstance } from "../utils/factory";
-import config from "../config/config.json";
 type Props = {
   url: string;
   topic: string;
@@ -10,10 +9,7 @@ const useWebSocket = ({ url, topic, callback }: Props) => {
   const stompClient = getInstance("StompClient");
   const [connected, setConnected] = useState(false);
 
-
   useEffect(() => {
-    if (!config.app.healthcheck?.connectWs) return;
-
     if (url === undefined || topic === undefined) {
       console.log("url or topic is empty");
       return;

@@ -13,13 +13,6 @@
           "topic": "/topic/healthCheck"
         }
       ]
-    },
-
-    "healthcheck": {
-      "connectWs": true,
-      "healthcheckWsEndpoint": "ws://LAPTOP-UMF83CB2:8009/ws-endpoint1",
-      "healthcheckWsEndpoint1": "ws://data-store.azurewebsites.net/ws-endpoint",
-      "healthcheckWsTopic": "/topic/queryAsync"
     }
   }
 }
