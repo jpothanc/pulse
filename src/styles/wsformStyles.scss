@@ -32,6 +32,7 @@ $tool-bar-color: rgb(207, 86, 86);
     margin: 2px;
     row-gap: 2px;
     height: 25px;
+    font-size: 10px;
     border-radius: 5px;
     background-color: rgb(0, 0, 0);
     color: $logo-color;
@@ -74,11 +75,29 @@ $tool-bar-color: rgb(207, 86, 86);
   font-size: 10px;
   font-weight: 500;
   margin: 2px;
-  color: $logo-color;
+  color: black;
   text-transform: uppercase;
   transition: all 0.3s ease;
   &:hover {
-    background-color: rgb(4, 4, 4);
-    color: $button-color;
+    filter: brightness(1.3);
+  }
+}
+
+.status-bar {
+  display: flex;
+  flex-direction: column;
+  margin-top: 25px;
+  .status-bar-console {
+    text-wrap: wrap;
+    background-color: black;
+    border: solid 1px $logo-color;
+    color: rgb(39, 109, 207);
+    font-size: 10px;
+    height: 120px;
+    padding: 2px;
+    overflow: auto;
+    line-height: 1.5; /* Adjust the line height for spacing within the span */
+    display: block; /* Make the span a block-level element */
+    margin-bottom: 10px; /* Add margin to create space between lines */
   }
 }

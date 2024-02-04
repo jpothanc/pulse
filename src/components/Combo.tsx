@@ -48,7 +48,7 @@ export const Combo = ({
           singleValue: (provided) => ({
             ...provided,
             color: "white",
-            fontSize: "12px",
+            fontSize: "10px",
           }),
           menu: (provided) => ({
             ...provided,

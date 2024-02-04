@@ -1,5 +1,6 @@
 import { Client, IFrame, Message } from "@stomp/stompjs";
 import { injectable } from "inversify";
+import { getInstance } from "../utils/factory";
 
 export interface IStompClient {
   connect(url: string, callback: (frame: IFrame) => void): Promise<void>;
@@ -11,19 +12,21 @@ export interface IStompClient {
 @injectable()
 export class StompClient implements IStompClient {
   private client?: Client;
+  logger = getInstance("Logger");
 
   public async connect(
     url: string,
     callback: (frame: IFrame) => void
   ): Promise<void> {
-    console.log("StompClient connecting" + url);
+    this.logger.log("StompClient connecting" + url);
+
     this.client = new Client({
       brokerURL: url,
       debug: (str) => {
-        console.log("error:" + str);
+          this.logger.log("error:" + str);
       },
       onConnect: (frame) => {
-        console.log(" StompClient Connected: " + frame);
+         this.logger.log("StompClient Connected: " + frame);
         callback(frame);
       },
     });
@@ -31,6 +34,7 @@ export class StompClient implements IStompClient {
   }
 
   subscribe(destination: string, callback: (message: Message) => void) {
+     this.logger.log("subscribe topic:" + destination);
     return this.client?.subscribe(destination, (message: Message) => {
       callback(message);
     });

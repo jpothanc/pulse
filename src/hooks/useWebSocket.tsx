@@ -1,35 +1,39 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getInstance } from "../utils/factory";
 import config from "../config/config.json";
 type Props = {
+  url: string;
+  topic: string;
   callback: (data: any) => void;
 };
-const useWebSocket = ({ callback }: Props) => {
+const useWebSocket = ({ url, topic, callback }: Props) => {
   const stompClient = getInstance("StompClient");
+  const [connected, setConnected] = useState(false);
+
 
   useEffect(() => {
     if (!config.app.healthcheck?.connectWs) return;
 
-    stompClient.connect(
-      config.app.healthcheck.healthcheckWsEndpoint,
-      (frame: { body: any }) => {
-        frame.body;
-        stompClient?.subscribe(
-          config.app.healthcheck.healthcheckWsTopic,
-          (message: { body: any }) => {
-            callback(message.body);
-          }
-        );
-      }
-    );
+    if (url === undefined || topic === undefined) {
+      console.log("url or topic is empty");
+      return;
+    }
+
+    stompClient.connect(url, (frame: { body: any }) => {
+      frame.body;
+      setConnected(true);
+      stompClient?.subscribe(topic, (message: { body: any }) => {
+        callback(message.body);
+      });
+    });
 
     return () => {
       console.log("Disconnecting WebSocket");
       stompClient.disconnect();
     };
-  }, []);
+  }, [url, topic]);
 
-  return <div>useWebSocket</div>;
+  return connected;
 };
 
 export default useWebSocket;

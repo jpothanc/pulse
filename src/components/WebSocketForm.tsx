@@ -1,11 +1,17 @@
 import { SingleValue } from "react-select";
-import { EventData, EventId } from "../services/EventMessages";
+import {
+  CreateClearMessage,
+  EventData,
+  EventId,
+} from "../services/EventMessages";
 import { getInstance } from "../utils/factory";
 import { Combo } from "./Combo";
 import { selectOption } from "../utils/helper";
 import useEventManager from "../hooks/useEventManager";
 import { useState } from "react";
 import useWebSocket from "../hooks/useWebSocket";
+import config from "../config/config.json";
+import StatusBar from "./StatusBar";
 
 const options = [
   { value: "DataStore", label: "DataStore" },
@@ -18,7 +24,16 @@ type wsOptions = {
 
 const WebSocketForm = () => {
   const eventManager = getInstance("EventManager");
-  useWebSocket({ callback: onSocketEvents });
+  const [wsOptions, setWsOptions] = useState<wsOptions>({
+    serverName: "",
+    topic: "",
+  });
+
+  const connected = useWebSocket({
+    url: wsOptions.serverName,
+    topic: wsOptions.topic,
+    callback: onSocketEvents,
+  });
 
   function onSocketEvents(event: any) {
     const data = JSON.parse(event);
@@ -34,10 +49,6 @@ const WebSocketForm = () => {
     });
   }
 
-  const [wsOptions, setWsOptions] = useState<wsOptions>({
-    serverName: "",
-    topic: "",
-  });
   useEventManager({ callback: onEvents });
   const handleSelectionChange = (
     source: string,
@@ -58,11 +69,19 @@ const WebSocketForm = () => {
 
   function onEvents(event: EventData): void {
     if (event.id === EventId.MSG_WS_NAME_CHANGED) {
-      setWsOptions({
-        ...wsOptions,
-        serverName: "servername",
-        topic: "topic details",
-      });
+      var item = config.app.webSockets.items.find(
+        (item) => item.name === event.payload.data.toLocaleLowerCase()
+      );
+
+      if (item) {
+        setWsOptions({
+          ...wsOptions,
+          serverName: item.serverName,
+          topic: item.topic,
+        });
+        const eventData = CreateClearMessage(WebSocketForm.name);
+        eventManager.publish(eventData);
+      }
     }
   }
 
@@ -95,9 +114,15 @@ const WebSocketForm = () => {
             className="wsform-input"
             value={wsOptions.topic}
           />
-          <button className="toolbar-btn">Connect</button>
+          <button
+            className="toolbar-btn"
+            style={{ background: connected ? "green" : "red" }}
+          >
+            {connected ? "Connected" : "Not Connected"}
+          </button>
         </div>
       </div>
+      <div><StatusBar/></div>
     </>
   );
 };

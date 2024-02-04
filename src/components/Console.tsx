@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { EventData, EventId } from "../services/EventMessages";
 import useEventManager from "../hooks/useEventManager";
+import StatusBar from "./StatusBar";
 
 const Console = () => {
   const [text, setText] = useState<string>("");

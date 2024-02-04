@@ -3,20 +3,22 @@
     "webSockets": {
       "items": [
         {
-          "name": "item1",
-          "value": "value1"
+          "name": "datastore",
+          "serverName": "ws://LAPTOP-UMF83CB2:8007/ws-endpoint",
+          "topic": "/topic/queryAsync"
         },
         {
-          "name": "item2",
-          "value": "value2"
+          "name": "healthcheck",
+          "serverName": "ws://LAPTOP-UMF83CB2:8009/ws-endpoint1",
+          "topic": "/topic/healthCheck"
         }
       ]
     },
 
     "healthcheck": {
       "connectWs": true,
-      "healthcheckWsEndpoint": "ws://LAPTOP-UMF83CB2:8007/ws-endpoint",
-      "healthcheckWsEndpoint1": "wss://data-store.azurewebsites.net/ws-endpoint",
+      "healthcheckWsEndpoint": "ws://LAPTOP-UMF83CB2:8009/ws-endpoint1",
+      "healthcheckWsEndpoint1": "ws://data-store.azurewebsites.net/ws-endpoint",
       "healthcheckWsTopic": "/topic/queryAsync"
     }
   }
