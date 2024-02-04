@@ -33,5 +33,5 @@ User-friendly Interface: Simple and intuitive interface for easy testing.
 }
 
 ```
-![image](https://github.com/jpothanc/pulse/assets/70871841/0f72337b-08a2-4083-8e59-ee192a693c59)
+
 
